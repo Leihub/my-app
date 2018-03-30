@@ -74,7 +74,64 @@ class Login extends Component {
     })
   }
   userRegister(){
-    
+    let reg = /^\s+$/
+    let input = this.state
+    switch(''){
+      case input.username:
+        $.alert('用户名不能为空')
+        return ;
+        break;
+      case input.email:
+        $.alert('邮箱不能为空')
+        return ;
+        break;
+      case input.password:
+        $.alert('密码不能为空')
+        return ;
+        break;
+      case input.rpassword:
+        $.alert('两次密码不一致')
+        return ;
+        break;
+    }
+    if(!(/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(this.state.email))){
+      $.alert('邮箱格式不正确')
+      return
+    }
+    if(input.password != input.rpassword){
+      $.alert('两次密码不一致')
+      return
+    }
+    if(input.password.length < 6){
+      $.alert('密码不得少于6位数')
+      return
+    }
+    if(reg.test(input.username)){
+      $.alert('用户名不能为空')
+      return
+    }
+
+    let md5Password = md5(this.state.password)
+    let userInfo = {
+      username:this.state.username,
+      email:this.state.email,
+      password:md5Password
+    }
+    UserModel.register(userInfo,(data)=>{
+      if(data.id == '1') {
+        $.toast('注册成功')
+        UserModel.storeToken(data.content)
+        window.location.hash = '/indexList'
+      }
+      else if(data.id == '2'){
+        $.toast(data.content)
+      }else if (data.id == '3'){
+        $.toast(data.content)
+      }
+    },(error)=>{
+      console.log(error)
+    })
+
   }
   userLogin(){
     let username = this.refs.username.value 
