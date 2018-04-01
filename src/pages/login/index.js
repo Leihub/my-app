@@ -201,6 +201,9 @@ class Login extends Component {
     </div>
     ) : (
       <div className="content">
+       <form action="" onClick={(e) => {
+         e.stopPropagation()
+       }}>
         <div className="list-block">
           <ul>
             <li>
@@ -276,6 +279,7 @@ class Login extends Component {
             </div>
           </div>
         </div>
+        </form>
       </div>
     )
     return (

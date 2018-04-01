@@ -12,6 +12,7 @@ function _request(_method, _api, _params, _onSuccess, _onError) {
   }
   if(_method.toLowerCase() == 'get'){
     _api += Tools._getSearchFromObject(_params)
+    console.log(_api)
   }
   fetch(_api,_options)
     .then(Tools.checkStates)
@@ -95,10 +96,20 @@ let UserModel = {
     _upload(`${API}user/uploadAvatar`,_params,_success,_error)
   },
   fetchArticle: (_params,_success,_error) => {
-    _request('GET',`${API}user/fetchArticle`,_success,_error)
+    _request('GET',`${API}user/fetchArticle`,_params,_success,_error)
   }
 }
 
+let ArticleModel = {
+  pulish: (_params,_success,_error) => {
+    _request('POST',`${API}article/pulish`,_params,_success,_error)
+  },
+  fetchList:(_success,_error) => {
+    _request('GET',`${API}article/fetchList`,_success,_error)
+  }
+
+}
+
 export {
-  UserModel
+  UserModel,ArticleModel
 }

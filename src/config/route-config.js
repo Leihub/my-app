@@ -38,13 +38,13 @@ class RouteConfig extends Component {
 
     }
   }
-  // WrapIndexList(props) {
-  //   return(
-  //     <AsyncComponent moduleId="route.indexlist" load={() => import('../component/indexlist') }>
-  //     {(Comp) => <Comp {...props} title="首页列表"/>}
-  //   </AsyncComponent>
-  //   )
-  // }
+  WrapIndexList(props) {
+    return(
+      <AsyncComponent moduleId="route.indexlist" load={() => import('../pages/indexlist') }>
+      {(Comp) => <Comp {...props} title="首页列表"/>}
+    </AsyncComponent>
+    )
+  }
   // WrapArticleDetail(props) {
   //   return (
   //     <AsyncComponent moduleId="route.articleDetail" load={() => import('../component/articleDetail') }>
@@ -59,13 +59,13 @@ class RouteConfig extends Component {
   //     </AsyncComponent>
   //   )
   // }
-  // WrapMe(props) {
-  //   return (
-  //     <AsyncComponent moduleId="route.me" load={() => import('../component/me') }>
-  //       {(Comp) => <Comp {...props} title="Page Title: me"/>}
-  //     </AsyncComponent>
-  //   )
-  // }
+  WrapMe(props) {
+    return (
+      <AsyncComponent moduleId="route.me" load={() => import('../pages/me') }>
+        {(Comp) => <Comp {...props} title="Page Title: me"/>}
+      </AsyncComponent>
+    )
+  }
   WrapLogin(props){
     return(
       <AsyncComponent moduleId="route.login" load={() => import('../pages/login') }>
@@ -73,13 +73,13 @@ class RouteConfig extends Component {
       </AsyncComponent>
     )
   }
-  // WrapMyArticle(props){
-  //   return (
-  //     <AsyncComponent moduleId="route.myarticle" load={() => import('../Component/Me/myArticle')}>
-  //       {(Comp) => <Comp {...props} title="我的文章列表"/>}
-  //     </AsyncComponent>
-  //   )
-  // }
+  WrapMyArticle(props){
+    return (
+      <AsyncComponent moduleId="route.myarticle" load={() => import('../pages/myArticle')}>
+        {(Comp) => <Comp {...props} title="我的文章列表"/>}
+      </AsyncComponent>
+    )
+  }
   render() {
     return (
       <HashRouter>
@@ -89,6 +89,9 @@ class RouteConfig extends Component {
               <Switch>
                 <Route exact path="/" component={this.WrapLogin}></Route>
                 <Route exact path="/login" component={this.WrapLogin}/>
+                <Route exact path="/me" component={this.WrapMe}/>
+                <Route exact path="/myArticle" component={this.WrapMyArticle}/>
+                <Route exact path="/indexList" component={this.WrapIndexList}/>
               </Switch>
             </div>
             <div style={{position: "absolute", height: "50px", width: "100%", bottom: "0px", zIndex: '2001'}}>{nav()}</div>
