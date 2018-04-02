@@ -104,8 +104,8 @@ let ArticleModel = {
   pulish: (_params,_success,_error) => {
     _request('POST',`${API}article/pulish`,_params,_success,_error)
   },
-  fetchList:(_success,_error) => {
-    _request('GET',`${API}article/fetchList`,_success,_error)
+  fetchList:(_params,_success,_error) => {
+    _request('GET',`${API}article/fetchList`,_params,_success,_error)
   }
 
 }
