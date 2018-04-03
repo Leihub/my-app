@@ -4,6 +4,11 @@ import {Link} from 'react-router-dom'
 import setPageTitle from '../../components/HOC/setPageTitle.js'
 import { ArticleModel,UserModel } from '../../dataModel.js'
 import {dateDiff} from '../../tools/dateDiff.js';
+import Me from '../me'
+import '../../static/css/style.css'
+
+
+let $ = window.Zepto
 let StyleMedia ={
   indexList:{},
   h4style:{},
@@ -29,6 +34,8 @@ let StyleMedia ={
         this.setState({
           list:data
         })
+        // this.loadingFinish(this.refs.outerScroller, this.refs.preloader, this.refs.scrollList)
+        
       },(err)=>{
         console.log(err)
       })
@@ -98,14 +105,63 @@ let StyleMedia ={
         )
       })
     }
+    // loadingFinish(outerScroller, preloader, scrollList) {
+    //   let _this = this;
+    //   scrollList.style ? scrollList.style.overflow = 'auto' : null;
+    //   preloader.style ? preloader.style.display = 'none' : null;
+    //   //将页面还原
+    //   // return;
+    //   var LFT = setInterval(function () {
+    //     outerScroller.style.top = parseInt(outerScroller.style.top) - 3 + 'px';
+    //     if (!outerScroller.style.top) {
+    //       clearInterval(LFT);
+    //       return;
+    //     }
+    //     if (parseInt(outerScroller.style.top) <= _this.state.defaultTop) {
+    //       clearInterval(LFT);
+    //       if (outerScroller.offsetTop < _this.state.defaultTop) {
+    //         outerScroller.style.top = _this.state.defaultTop + 'px'
+    //       }
+    //       //进行新的一轮监听
+    //       //
+    //       _this.pullToRefresh(_this.refs.outerScroller, _this.refs.pullToRefreshBox, _this.refs.scrollList, _this.refs.preloader, _this.refs.pullToRefreshArrow)
+    //       // checkState(outerScroller.offsetTop)
+    //       _this.refs.pullToRefreshArrow.style.display = 'block';
+    //       _this.removeClass(_this.refs.pullToRefreshBox, 'up')
+    //     }
+    //   }, 10)
+    // }
+    checkLogin(){
+      if(UserModel.fetchToken()){
+        return <Me/>
+      }else{
+        return <div><p><a onClick={this.goLogin} className="button button-big button-fill button-success">登录</a></p></div>
+      }
+    }
+    goLogin(){
+      $.closePanel()
+      setTimeout(()=>{
+        window.location.hash="login"
+      },1000)
+    }
     
     render() {
       return ( 
-      <div>
-        <div>
-          <ul>
-          {this.indexList()}
-          </ul>
+      <div data-log="log">
+        <main className="page page-current">
+          <div className="outerScroller" id="outerScroll" ref="outerScroll">
+            {/* <div className="pullToRefreshBox" id="pullToRefreshBox" ref="pullToRefreshBox">
+              <div className="preloader" id="" ref="preloader"></div>
+              <div className="pullToRefreshArrow" id="" ref="pullToRefreshArrow"></div>
+            </div> */}
+            <ul style={{background:'#eee'}} className="scroll" ref="scrollList">
+              {this.indexList()}
+            </ul>
+          </div>
+        </main>
+        <div className="panel-overlay"></div>
+        <div className="panel panel-left panel-reveal theme-dark" id="panel-left-demo">
+          {this.checkLogin()}
         </div>
       </div>
       );
