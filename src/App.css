@@ -1,4 +1,4 @@
-* { touch-action: none; }
+* {touch-action: manipulation; }
 .App {
   text-align: center;
 }

@@ -24,7 +24,6 @@ class Me extends Component {
      };
   }
   componentDidMount() {
-    console.log('aa')
     let USER_Token = UserModel.fetchToken()
     if(!USER_Token){
       window.location.hash = '/login'
@@ -64,10 +63,17 @@ class Me extends Component {
   }
   signOut(e){
     e.preventDefault();
+    $.closePanel()
     $.confirm('您要退出登录吗？',()=>{
       window.localStorage.removeItem('userToken')
       window.location.hash='/login'
     })
+  }
+  toMyArticle() {
+    $.closePanel()
+    setTimeout(()=>{
+      window.location.hash="/myArticle"
+    },1000)
   }
   render() {
     return (
@@ -101,7 +107,7 @@ class Me extends Component {
                   <div className="item-media"><i className="icon icon-edit"></i></div>
                   <div className="item-inner">
                     <div className="item-title" style={{cursor:'pointer'}} onClick={()=>{
-                      window.location.hash="/myArticle"
+                      this.toMyArticle()
                     }}>我的文章</div>
                   </div>
                 </li>

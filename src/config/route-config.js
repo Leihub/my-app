@@ -45,20 +45,20 @@ class RouteConfig extends Component {
     </AsyncComponent>
     )
   }
-  // WrapArticleDetail(props) {
-  //   return (
-  //     <AsyncComponent moduleId="route.articleDetail" load={() => import('../component/articleDetail') }>
-  //       {(Comp) => <Comp {...props} title="文章详情"/>}
-  //     </AsyncComponent>
-  //   )
-  // }
-  // WrapCreate(props) {
-  //   return (
-  //     <AsyncComponent moduleId="route.articleDetail" load={() => import('../component/articleDetail') }>
-  //       {(Comp) => <Comp {...props} title="创建文章"/>}
-  //     </AsyncComponent>
-  //   )
-  // }
+  WrapArticleDetail(props) {
+    return (
+      <AsyncComponent moduleId="route.articleDetail" load={() => import('../pages/articleDetail') }>
+        {(Comp) => <Comp {...props} title="文章详情"/>}
+      </AsyncComponent>
+    )
+  }
+  WrapCreate(props) {
+    return (
+      <AsyncComponent moduleId="route.createArticle" load={() => import('../pages/create') }>
+        {(Comp) => <Comp {...props} title="创建文章"/>}
+      </AsyncComponent>
+    )
+  }
   WrapMe(props) {
     return (
       <AsyncComponent moduleId="route.me" load={() => import('../pages/me') }>
@@ -87,11 +87,14 @@ class RouteConfig extends Component {
           <div data-log="two">
             <div>
               <Switch>
-                <Route exact path="/" component={this.WrapLogin}></Route>
+                <Route exact path="/" component={this.WrapIndexList}></Route>
                 <Route exact path="/login" component={this.WrapLogin}/>
                 <Route exact path="/me" component={this.WrapMe}/>
                 <Route exact path="/myArticle" component={this.WrapMyArticle}/>
                 <Route exact path="/indexList" component={this.WrapIndexList}/>
+                <Route exact path="/create" component={this.WrapCreate}/>
+                <Route exact name="create" path="/create/:id" component={this.WrapCreate}/>
+                <Route exact name="articleDetail" path="/indexList/:id" component={this.WrapArticleDetail}/>
               </Switch>
             </div>
             <div style={{position: "absolute", height: "50px", width: "100%", bottom: "0px", zIndex: '2001'}}>{nav()}</div>

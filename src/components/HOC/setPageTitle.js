@@ -16,6 +16,7 @@ const setPageTitle = (WrappedComponent) => {
       );
     }
   }
+  return WrapperComponent
 
 }
 

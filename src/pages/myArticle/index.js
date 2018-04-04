@@ -29,7 +29,7 @@ class MyArticle extends Component {
     let list = this.state.list.map((item,index) =>{
         return (
           <li className="item-content" key={item.articleId}>
-            <Link to={`/creat/${item.articleId}`} style={{display: 'block', width: '100%', height: '100%',color:'#222'}}>
+            <Link to={`/create/${item.articleId}`} style={{display: 'block', width: '100%', height: '100%',color:'#222'}}>
               <div className="item-inner">
                 <div className="item-title">{item.title}</div>
               </div>

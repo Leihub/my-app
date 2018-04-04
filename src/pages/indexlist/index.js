@@ -10,9 +10,24 @@ import '../../static/css/style.css'
 
 let $ = window.Zepto
 let StyleMedia ={
-  indexList:{},
-  h4style:{},
-  pstyle:{}
+  indexList:{
+    paddingRight: '0.75rem',
+    marginBottom: '0.2rem',
+    borderTop: '1px solid #dfdfdf',
+    borderBottom: '1px solid #dfdfdf',
+    background: "#fff",
+    paddingLeft: "0.75rem",
+    paddingBottom: "0.3rem"
+  },
+  h4style:{
+    margin: "0.3rem 0",
+    color: '#259',
+    fontSize: '16px'
+  },
+  pstyle:{
+    margin: "0.3rem 0",
+    fontSize: "15px"
+  }
 }
 
 @setPageTitle
@@ -28,9 +43,7 @@ let StyleMedia ={
       this.fetchData()
     }
     fetchData(){
-      console.log('fetch data')
       ArticleModel.fetchList('',(data)=>{
-        console.log(data)
         this.setState({
           list:data
         })
@@ -39,7 +52,6 @@ let StyleMedia ={
       },(err)=>{
         console.log(err)
       })
-      console.log(this)
     }
     reseat(){
       let defaultTop=this.refs.outerScroller.offsetTop
@@ -57,7 +69,33 @@ let StyleMedia ={
     //   checkState(outerScroller.offsetTop)
     // }
     giveStar(e){
-      console.log(e)
+      console.log(e.target)
+      let usertoken = UserModel.fetchToken()
+      if(!usertoken){
+        $.alert('您还没有登录')
+        return
+      }
+      let target = e.target
+      let article_id = target.getAttribute('data-id')
+      console.log(article_id)
+      let params = {
+        userId:usertoken,
+        articleId:article_id
+      }
+      ArticleModel.giveStar(params,(data)=>{
+        if(data.title){
+          target.style.color = 'red'
+          $.toast(data.content)
+          this.componentDidMount()
+        }else{
+          target.style.color = 'none'
+          $.toast(data.content)
+          this.componentDidMount()
+        }
+      },(err)=>{
+        console.log(err)
+      })
+
     }
     wordControl(content){
       if(content.length > 65) {
@@ -81,7 +119,7 @@ let StyleMedia ={
       return list.map(function(item,index){
         return(
           <li className="" style={StyleMedia.indexList} key={item._id}>
-            <Link to={`/indexList${item._id}`} style={{display:'block'}}>
+            <Link to={`/indexList/${item._id}`} style={{display:'block'}}>
               <div className="list">
                 <div className="" style={{paddingTop:'0.4rem'}}>
                   <div style={{display:'inline-block',verticalAlign:'top',height:'2rem',}}>
@@ -99,7 +137,8 @@ let StyleMedia ={
             <div style={{display:'block',width:'100%',fontSize:'14px'}}>
               <span className="icon icon-star" style={_this.starStyle(item.star)} onClick={(e)=>{
                 _this.giveStar(e)
-              }}></span>
+              }} data-id={item._id} >{item.star.length}</span>
+              <span className="icon icon-message"> {item.commentNum}</span>
             </div>
           </li>
         )
@@ -147,14 +186,14 @@ let StyleMedia ={
     
     render() {
       return ( 
-      <div data-log="log">
+      <div data-log="log" style={{touchAction: 'manipulation'}}>
         <main className="page page-current">
-          <div className="outerScroller" id="outerScroll" ref="outerScroll">
+          <div className="outerScroller" id="outerScroll" ref="outerScroll" style={{height:`${document.body.clientHeight}px`,overflow:'scroll'}}>
             {/* <div className="pullToRefreshBox" id="pullToRefreshBox" ref="pullToRefreshBox">
               <div className="preloader" id="" ref="preloader"></div>
               <div className="pullToRefreshArrow" id="" ref="pullToRefreshArrow"></div>
             </div> */}
-            <ul style={{background:'#eee'}} className="scroll" ref="scrollList">
+            <ul style={{background:'#eee',overflow:'auto'}} className="scroll" ref="scrollList">
               {this.indexList()}
             </ul>
           </div>

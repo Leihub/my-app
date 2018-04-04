@@ -12,7 +12,6 @@ function _request(_method, _api, _params, _onSuccess, _onError) {
   }
   if(_method.toLowerCase() == 'get'){
     _api += Tools._getSearchFromObject(_params)
-    console.log(_api)
   }
   fetch(_api,_options)
     .then(Tools.checkStates)
@@ -106,6 +105,12 @@ let ArticleModel = {
   },
   fetchList:(_params,_success,_error) => {
     _request('GET',`${API}article/fetchList`,_params,_success,_error)
+  },
+  fetchArticle:(_id,_success,_error) => {
+    _request('GET',`${API}article/fetchArticle/${_id}`,null,_success,_error)
+  },
+  giveStar:(_params,_success,_error) => {
+    _request('POST',`${API}article/giveStar`,_params,_success,_error)
   }
 
 }

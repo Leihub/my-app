@@ -18,7 +18,7 @@ class Login extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      loginFlage:true,
+      loginFlag:true,
       username:'',
       email:'',
       password:'',
